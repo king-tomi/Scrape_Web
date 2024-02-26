@@ -63,6 +63,7 @@ def scrape_website(url):
         # If scraping fails, try using Selenium
         try:
             # Set up the Chrome driver
+            colors = set()
             service = Service(f"{BASE_DIR}/chromedriver")
             chrome_options = Options()
             chrome_options.add_argument("--headless")  # Run headless to avoid opening a browser window
