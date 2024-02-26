@@ -50,7 +50,7 @@ def scrape_website(url):
                 colors.update(hex_colors)
 
         #Extract text
-        text = soup.get_text()
+        text = soup.get_text().replace("\n", "")
 
         result = {"title": title, "logo": logo, "colors": list(colors), "text": text}
 
@@ -99,7 +99,7 @@ def scrape_website(url):
 
             # Extract the text of the website
             text_elements = driver.find_elements(By.XPATH, '//*[not(self::script or self::style)]')
-            text = ' '.join(element.text for element in text_elements)
+            text = ' '.join(element.text.replace("\n", "") for element in text_elements)
 
             driver.quit()  # Close the browser
 
