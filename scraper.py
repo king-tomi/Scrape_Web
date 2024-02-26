@@ -49,12 +49,15 @@ def scrape_website(url):
                 hex_colors = re.findall(r"#(?:[0-9a-fA-F]{3}){1,2}", styles)
                 colors.update(hex_colors)
 
-        result = {"title": title, "logo": logo, "colors": list(colors)}
+        #Extract text
+        text = soup.get_text()
+
+        result = {"title": title, "logo": logo, "colors": list(colors), "text": text}
 
     except Exception as e:
         print(f"Failed to scrape the website using requests and BeautifulSoup")
 
-    if result['title'] is not None:
+    if result != {} and result['title'] is not None:
         return result
     else:
         # If scraping fails, try using Selenium
@@ -93,9 +96,13 @@ def scrape_website(url):
                     inline_hex_colors = re.findall(r"#(?:[0-9a-fA-F]{3}){1,2}", style_attribute)
                     colors.update(inline_hex_colors)
 
+            # Extract the text of the website
+            text_elements = driver.find_elements(By.XPATH, '//*[not(self::script or self::style)]')
+            text = ' '.join(element.text for element in text_elements)
+
             driver.quit()  # Close the browser
 
-            return {"title": title, "logo": logo, "colors": list(colors)}
+            return {"title": title, "logo": logo, "colors": list(colors), "text": text}
 
         except Exception as e:
             print(f"Failed to scrape the website using Selenium: {e}")
