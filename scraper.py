@@ -148,6 +148,7 @@ def scrape_website(url):
             service = Service(f"{BASE_DIR}/chromedriver")
             chrome_options = Options()
             chrome_options.add_argument("--headless")  # Run headless to avoid opening a browser window
+            chrome_options.add_argument("--disable-gpu")
             driver = webdriver.Chrome(service=service, options=chrome_options)
 
             home_page = HomePage(driver, url)
